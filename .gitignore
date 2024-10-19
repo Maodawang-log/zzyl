@@ -1,0 +1,4 @@
+# 项目排除路径
+/zzyl-common/target/
+/zzyl-service/target/
+/zzyl-web/target/
