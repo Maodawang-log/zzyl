@@ -12,4 +12,5 @@ public interface NursingProjectMapper {
 
     Page<NursingProject> selectByPage(String name, Integer status);
 
+    void insert(NursingProject nursingProject);
 }

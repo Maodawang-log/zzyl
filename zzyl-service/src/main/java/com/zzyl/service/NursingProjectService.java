@@ -1,6 +1,7 @@
 package com.zzyl.service;
 
 import com.zzyl.base.PageResponse;
+import com.zzyl.dto.NursingProjectDto;
 import com.zzyl.vo.NursingProjectVo;
 
 /**
@@ -19,4 +20,10 @@ public interface NursingProjectService {
      */
     PageResponse<NursingProjectVo> getByPage(String name, Integer status, Integer pageNum, Integer pageSize);
 
+    /**
+     * 新增护理项目
+     *
+     * @param nursingProjectDTO 护理项目数据传输对象
+     */
+    void add(NursingProjectDto nursingProjectDTO);
 }
