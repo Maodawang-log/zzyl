@@ -2,7 +2,10 @@ package com.zzyl.service;
 
 import com.zzyl.base.PageResponse;
 import com.zzyl.dto.NursingProjectDto;
+import com.zzyl.entity.NursingProject;
 import com.zzyl.vo.NursingProjectVo;
+
+import java.util.List;
 
 /**
  * 护理项目Service接口
@@ -26,4 +29,19 @@ public interface NursingProjectService {
      * @param nursingProjectDTO 护理项目数据传输对象
      */
     void add(NursingProjectDto nursingProjectDTO);
+
+    NursingProjectVo getById(Long id);
+
+    /**
+     * 更新护理项目信息
+     *
+     * @param nursingProjectDTO 护理项目数据传输对象
+     */
+    void update(NursingProjectDto nursingProjectDTO);
+
+    void of(Long id, int status);
+
+    void del(Long id);
+
+    List<NursingProjectVo> getAllProjects();
 }

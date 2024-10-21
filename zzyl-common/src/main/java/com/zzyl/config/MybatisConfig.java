@@ -1,6 +1,7 @@
 package com.zzyl.config;
 
 import com.zzyl.intercept.AutoFillInterceptor;
+import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

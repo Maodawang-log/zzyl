@@ -40,4 +40,34 @@
         values (#{name}, #{orderNo}, #{unit}, #{price}, #{image}, #{nursingRequirement}, #{status}, #{createBy},
                 #{updateBy}, #{remark}, #{createTime}, #{updateTime})
     </insert>
+
+    <select id="selectById" resultType="com.zzyl.entity.NursingProject">
+        select *
+        from nursing_project
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.zzyl.entity.NursingProject">
+        UPDATE nursing_project
+        <set>
+            <if test="name != null and name !=''">name = #{name},</if>
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="nursingRequirement != null">nursing_requirement = #{nursingRequirement},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="del" parameterType="long">
+        delete from nursing_project where id = #{id}
+    </delete>
+    <select id="getALL" resultType="com.zzyl.entity.NursingProject">
+        select * from nursing_project
+    </select>
 </mapper>

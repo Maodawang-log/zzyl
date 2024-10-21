@@ -3,6 +3,7 @@ package com.zzyl.controller;
 import com.zzyl.base.PageResponse;
 import com.zzyl.base.ResponseResult;
 import com.zzyl.dto.NursingProjectDto;
+import com.zzyl.entity.NursingProject;
 import com.zzyl.service.NursingProjectService;
 import com.zzyl.vo.NursingProjectVo;
 import io.swagger.annotations.Api;
@@ -10,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 护理项目Controller类
@@ -44,5 +47,37 @@ public class NursingProjectController {
             @RequestBody NursingProjectDto nursingProjectDTO) {
         nursingProjectService.add(nursingProjectDTO);
         return ResponseResult.success();
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询护理项目")
+    public ResponseResult<NursingProjectVo> getById(@PathVariable("id") Long id) {
+        NursingProjectVo nursingProjectVO = nursingProjectService.getById(id);
+        return ResponseResult.success(nursingProjectVO);
+    }
+
+    @PutMapping
+    @ApiOperation("修改护理项目")
+    public ResponseResult update(@RequestBody NursingProjectDto nursingProjectDTO) {
+        nursingProjectService.update(nursingProjectDTO);
+        return ResponseResult.success();
+    }
+    @PutMapping("/{id}/status/{status}")
+    @ApiOperation("修改禁用状态")
+    public ResponseResult disableNursingProject(@PathVariable Long id, @PathVariable int status){
+        nursingProjectService.of(id,status);
+        return ResponseResult.success();
+    }
+    @DeleteMapping("/{id}")
+    @ApiOperation("删除护理项目")
+    public ResponseResult delNursingProject(@PathVariable Long id){
+        nursingProjectService.del(id);
+        return ResponseResult.success();
+    }
+    @GetMapping("/all")
+    @ApiOperation("查询所有护理项目")
+    public ResponseResult getALL(){
+        List<NursingProjectVo> all = nursingProjectService.getAllProjects();
+        return ResponseResult.success(all);
     }
 }

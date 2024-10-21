@@ -234,7 +234,7 @@ public class PageResponse<T> {
         List<T> targetList = BeanUtil.copyToList(content, clazz);
         //特殊类型转换
         //特殊类型转换
-        if (CollUtil.isNotEmpty(targetList) && ObjectUtil.isNotEmpty(convertHandler)) {
+        if (CollUtil.isNotEmpty(targetList) && ObjectUtil.isNotEmpty(convertHandler))  {
             for (int i = 0; i < content.size(); i++) {
                 convertHandler.map(content.get(i), targetList.get(i));
             }
