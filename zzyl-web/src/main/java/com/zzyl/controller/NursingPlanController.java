@@ -1,5 +1,6 @@
 package com.zzyl.controller;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.zzyl.base.PageResponse;
 import com.zzyl.base.ResponseResult;
@@ -36,7 +37,7 @@ public class NursingPlanController {
     }
     @GetMapping("/plan/search")
     @ApiOperation("分页查询护理计划")
-    public ResponseResult<PageInfo<NursingPlanVo>> searchNursingPlans(
+    public ResponseResult<Page<NursingPlanVo>> searchNursingPlans(
             @RequestParam(required = false) String name,
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize,

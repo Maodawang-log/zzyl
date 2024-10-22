@@ -6,13 +6,16 @@ import com.github.pagehelper.PageInfo;
 import com.zzyl.base.PageResponse;
 import com.zzyl.dto.NursingPlanDto;
 import com.zzyl.dto.NursingProjectPlanDto;
+import com.zzyl.entity.NursingLevel;
 import com.zzyl.entity.NursingPlan;
 import com.zzyl.entity.NursingProject;
 import com.zzyl.entity.NursingProjectPlan;
+import com.zzyl.mapper.NursingLevelMapper;
 import com.zzyl.mapper.NursingPlanMapper;
 import com.zzyl.service.NursingPlanService;
 import com.zzyl.vo.NursingPlanVo;
 import com.zzyl.vo.NursingProjectVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,11 +26,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class NursingPlanServiceImpl implements NursingPlanService {
 
     @Autowired
     private NursingPlanMapper nursingPlanMapper;
 
+    @Autowired
+    private NursingLevelMapper nursingLevelMapper;
     @Override
     public List<NursingPlanVo> getAllPlans() {
         List<NursingPlan> nursingPlans = nursingPlanMapper.getAll();
@@ -92,21 +98,35 @@ public class NursingPlanServiceImpl implements NursingPlanService {
 
     @Override
     public void updateStatus(Long id, Integer status) {
+        // 创建新的护理计划对象
         NursingPlan nursingPlan = new NursingPlan();
         nursingPlan.setId(id);
         nursingPlan.setStatus(status);
+
+        // 检查是否有护理等级关联该护理计划
+        List<NursingLevel> nursingLevels = nursingLevelMapper.getByPlanId(id);
+        if (nursingLevels != null && !nursingLevels.isEmpty()) {
+            throw new IllegalStateException("该护理计划已被护理等级引用，不能禁用");
+        }
+
+        // 执行状态更新操作
         nursingPlanMapper.update(nursingPlan);
     }
 
     @Override
     public void deletePlan(Long id) {
+        // 获取护理计划
         NursingPlan nursingPlan = nursingPlanMapper.getById(id);
+
+        // 判断是否存在该护理计划以及其状态是否为禁用
         if (nursingPlan != null && nursingPlan.getStatus() == 0) {
+            // 如果状态为禁用，执行删除操作
             nursingPlanMapper.delete(id);
         } else {
             throw new IllegalStateException("只能删除禁用状态的护理计划");
         }
     }
+
 
     @Override
     public NursingPlanVo getNursingPlanById(Long id) {

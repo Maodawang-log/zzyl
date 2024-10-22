@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.zzyl.base.PageResponse;
 import com.zzyl.dto.NursingProjectDto;
 import com.zzyl.entity.NursingProject;
+import com.zzyl.entity.NursingProjectPlan;
 import com.zzyl.mapper.NursingProjectAanPlanMapper;
 import com.zzyl.mapper.NursingProjectMapper;
 import com.zzyl.service.NursingProjectService;
@@ -38,6 +39,7 @@ public class NursingProjectServiceImpl implements NursingProjectService {
 
     /**
      * 新增护理项目
+     *
      * @param nursingProjectDTO 护理项目数据传输对象
      */
     @Override
@@ -49,13 +51,14 @@ public class NursingProjectServiceImpl implements NursingProjectService {
 
     /**
      * 根据ID查询护理项目
+     *
      * @param id
      * @return
      */
     @Override
     public NursingProjectVo getById(Long id) {
         NursingProject nursingProject = nursingProjectMapper.selectById(id);
-        return BeanUtil.toBean(nursingProject,NursingProjectVo.class);
+        return BeanUtil.toBean(nursingProject, NursingProjectVo.class);
     }
 
     /**
@@ -76,21 +79,27 @@ public class NursingProjectServiceImpl implements NursingProjectService {
         nursingProject.setId(id);
         nursingProject.setStatus(status);
         //只能禁用未被plan表使用的服务
-        if(nursingProjectAanPlanMapper.projectByid(id)==null){
+        List<NursingProjectPlan> nursingProjectPlans = nursingProjectAanPlanMapper.planById(id);
+        if (nursingProjectPlans == null || nursingProjectPlans.isEmpty()) {
             nursingProjectMapper.update(nursingProject);
-        }else {
-            throw new IllegalStateException("只能禁用未被使用的护理项目");
+        } else {
+            throw new IllegalStateException("只能禁用未被引用的护理项目");
         }
     }
 
     @Override
     public void del(Long id) {
-        //只能删除禁用钻状态的数据
-        try {
+        // 获取护理项目
+        NursingProject nursingProject = nursingProjectMapper.selectById(id);
+
+        // 判断是否存在该护理项目以及其状态是否为禁用
+        if (nursingProject != null && nursingProject.getStatus() == 0) {
+
             nursingProjectMapper.del(id);
-        } catch (Exception e) {
-            throw new RuntimeException("只能删除禁用状态的ID！");
+        } else {
+            throw new IllegalStateException("该项目未被禁用，不能删除");
         }
+
     }
 
     @Override

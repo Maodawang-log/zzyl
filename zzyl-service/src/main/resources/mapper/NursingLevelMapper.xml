@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzyl.mapper.NursingLevelMapper">
+    <select id="listByCondition" parameterType="map" resultType="NursingLevel">
+        SELECT *
+        FROM nursing_level
+        WHERE 1=1
+        <if test="name != null and name != ''">
+            AND name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+    </select>
+    <insert id="insert" parameterType="NursingLevel">
+        INSERT INTO nursing_level (name, plan_id, fee, status, description, create_time, create_by, update_by, remark)
+        VALUES (#{name}, #{planId}, #{fee}, #{status}, #{description}, #{createTime}, #{createBy}, #{updateBy}, #{remark})
+    </insert>
+
+    <!-- 根据ID查询护理等级信息，并获取护理计划名称 -->
+    <select id="getNursingLevelById" parameterType="long" resultType="com.zzyl.vo.NursingLevelVo">
+        SELECT nl.id,
+               nl.name,
+               nl.plan_id,
+               nl.fee,
+               nl.status,
+               nl.description,
+               nl.create_time,
+               nl.update_time,
+               nl.create_by,
+               nl.update_by,
+               nl.remark,
+               np.plan_name
+        FROM nursing_level nl
+                 LEFT JOIN nursing_plan np ON nl.plan_id = np.id
+        WHERE nl.id = #{id}
+    </select>
+
+    <select id="getByPlanId" parameterType="long" resultType="NursingLevel">
+        SELECT * FROM nursing_level WHERE plan_id = #{planId}
+    </select>
+
+    <update id="updateNursingLevel" parameterType="NursingLevel">
+        UPDATE nursing_level
+        <set>
+            <if test="name != null"> name = #{name}, </if>
+            <if test="fee != null"> fee = #{fee}, </if>
+            <if test="status != null"> status = #{status}, </if>
+            <if test="description != null"> description = #{description}, </if>
+            <if test="remark != null"> remark = #{remark}, </if>
+            <if test="updateBy != null"> update_by = #{updateBy}, </if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>
