@@ -65,7 +65,7 @@
         WHERE id = #{id}
     </update>
     <delete id="del" parameterType="long">
-        delete from nursing_project where id = #{id}
+        delete from nursing_project where id = #{id} and status = 0;
     </delete>
     <select id="getALL" resultType="com.zzyl.entity.NursingProject">
         select * from nursing_project

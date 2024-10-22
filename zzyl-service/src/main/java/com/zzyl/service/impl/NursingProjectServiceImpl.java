@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.zzyl.base.PageResponse;
 import com.zzyl.dto.NursingProjectDto;
 import com.zzyl.entity.NursingProject;
+import com.zzyl.mapper.NursingProjectAanPlanMapper;
 import com.zzyl.mapper.NursingProjectMapper;
 import com.zzyl.service.NursingProjectService;
 import com.zzyl.vo.NursingProjectVo;
@@ -24,6 +25,8 @@ public class NursingProjectServiceImpl implements NursingProjectService {
 
     @Autowired
     private NursingProjectMapper nursingProjectMapper;
+    @Autowired
+    private NursingProjectAanPlanMapper nursingProjectAanPlanMapper;
 
     @Override
     public PageResponse<NursingProjectVo> getByPage(String name, Integer status, Integer pageNum, Integer pageSize) {
@@ -72,12 +75,22 @@ public class NursingProjectServiceImpl implements NursingProjectService {
         NursingProject nursingProject = new NursingProject();
         nursingProject.setId(id);
         nursingProject.setStatus(status);
-        nursingProjectMapper.update(nursingProject);
+        //只能禁用未被plan表使用的服务
+        if(nursingProjectAanPlanMapper.projectByid(id)==null){
+            nursingProjectMapper.update(nursingProject);
+        }else {
+            throw new IllegalStateException("只能禁用未被使用的护理项目");
+        }
     }
 
     @Override
     public void del(Long id) {
-        nursingProjectMapper.del(id);
+        //只能删除禁用钻状态的数据
+        try {
+            nursingProjectMapper.del(id);
+        } catch (Exception e) {
+            throw new RuntimeException("只能删除禁用状态的ID！");
+        }
     }
 
     @Override

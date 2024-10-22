@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.zzyl.entity.NursingProject;
 import com.zzyl.vo.NursingProjectVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -24,4 +25,5 @@ public interface NursingProjectMapper {
     void del(Long id);
 
     List<NursingProject> getALL();
+
 }
