@@ -34,11 +34,13 @@ public class NursingPlanServiceImpl implements NursingPlanService {
 
     @Autowired
     private NursingLevelMapper nursingLevelMapper;
+
     @Override
     public List<NursingPlanVo> getAllPlans() {
         List<NursingPlan> nursingPlans = nursingPlanMapper.getAll();
         return nursingPlans.stream().map(this::convertToVo).collect(Collectors.toList());
     }
+
     @Override
     @Transactional
     public void addPlan(NursingPlanDto nursingPlanDto) {

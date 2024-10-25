@@ -79,7 +79,7 @@ public class NursingProjectServiceImpl implements NursingProjectService {
         nursingProject.setId(id);
         nursingProject.setStatus(status);
         //只能禁用未被plan表使用的服务
-        List<NursingProjectPlan> nursingProjectPlans = nursingProjectAanPlanMapper.planById(id);
+        List<NursingProjectPlan> nursingProjectPlans = nursingProjectAanPlanMapper.ProjectById(id);
         if (nursingProjectPlans == null || nursingProjectPlans.isEmpty()) {
             nursingProjectMapper.update(nursingProject);
         } else {

@@ -64,3 +64,6 @@ zzyl:
       accessKeyId: ENC(Tqs0J9tMBprU1vAjXmoxK7hmrklHhOchwxWIlG002/ItB39r02eq/9j44hwlEwuHRdCuVnj5fVM+cmf3cL8QTg==)
       accessKeySecret: ENC(Bqfwgp0hKJyE6wpNsBPVR8mM0q1TEmiXrWb4B9SAwUeEbHNUaQV6LhItDjtsSq33XO4AXSaYUu/ZakXIzrL/NQ==)
       bucketName: java-li-web
+  wechat:
+    appId: ENC(bTkbTDjlbTqdSmd5E29+tywVCoEu7ysJUrq2BHD7ciwBjT7J64By8N1ymvvjV2bUo6OCBhd1pP3ksHr5TDMStA==)
+    appSecret: ENC(cnwB1x56V42SXYpRQmRI+NNnVV4ucCLl+1zO4jbG0t0byLyMqTuBNpogMSMoOTK4pz6oTOqo8Zjn7E+PGa17rF+7vA1iCWtwEvdT+Ae056k=)
