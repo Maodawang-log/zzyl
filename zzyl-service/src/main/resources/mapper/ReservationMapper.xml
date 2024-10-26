@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzyl.mapper.ReservationMapper">
+
+    <select id="selectByPage" resultType="com.zzyl.entity.ReservationRecord" parameterType="java.lang.Integer">
+        select *, s.nick_name as creator from reservation as r left join sys_user s on r.create_by = s.create_by
+        <where>
+            <if test="status != null"> status = #{status}</if>
+            <if test="id != null">and r.create_by = #{id}</if>
+        </where>
+    </select>
+
+</mapper>
